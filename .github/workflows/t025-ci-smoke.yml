@@ -1,0 +1,19 @@
+name: T025 CI smoke
+on:
+  push:
+    branches: [codex/t025-ci-smoke-20261123-225555]
+permissions: {}
+jobs:
+  synthetic-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Controlled failure on attempt one
+        env:
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          if [ "$RUN_ATTEMPT" = 1 ]; then
+            echo '::error::T025 synthetic assertion failed. Contact: smoke-ci@example.invalid'
+            echo 'synthetic credential github_pat_t025_only_fixture_redaction_canary'
+            exit 1
+          fi
+          echo 'T025 rerun succeeded'
